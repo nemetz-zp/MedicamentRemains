@@ -69,6 +69,9 @@ namespace MedicamentRemains
                 departmentsCBList.DataSource = deps;
                 departmentsCBList.DisplayMember = "Name";
                 departmentsCBList.ValueMember = "Id";
+
+                int selectedDepartmentId = Convert.ToInt32(departmentsCBList.SelectedValue);
+                remainsTable.ReadOnly = selectedDepartmentId < 0;
             }
         }
 
@@ -216,6 +219,7 @@ namespace MedicamentRemains
         private void departmentsCBList_SelectedIndexChanged(object sender, EventArgs e)
         {
             int selectedDepartmentId = Convert.ToInt32(departmentsCBList.SelectedValue);
+            remainsTable.ReadOnly = selectedDepartmentId < 0;
             
             // Отключаем возможность редактирование записей на общих итогах
             if(selectedDepartmentId < 0)
@@ -253,8 +257,16 @@ namespace MedicamentRemains
             }
         }
 
+        // Смена медикамента при двойном клике на ячейку таблицы
         private void remainsTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Убираем возможность смены медикамента, если выбран показ итогов по остаткам
+            int selectedDepartmentId = Convert.ToInt32(departmentsCBList.SelectedValue);
+            if(selectedDepartmentId < 0)
+            {
+                return;
+            }
+
             MedicamentRemain currentElement = remainsTable.Rows[e.RowIndex].DataBoundItem as MedicamentRemain;
 
             if (e.ColumnIndex == 2)
@@ -434,11 +446,6 @@ namespace MedicamentRemains
                 dbAvailableLabel.Text = "Доступна";
                 dbAvailableLabel.ForeColor = successColor;
             }
-        }
-
-        private void internetConnectionLabel_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

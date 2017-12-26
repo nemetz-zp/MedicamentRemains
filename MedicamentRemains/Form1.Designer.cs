@@ -320,7 +320,6 @@
             this.internetConnectionLabel.Size = new System.Drawing.Size(65, 15);
             this.internetConnectionLabel.TabIndex = 10;
             this.internetConnectionLabel.Text = "Наявний";
-            this.internetConnectionLabel.Click += new System.EventHandler(this.internetConnectionLabel_Click);
             // 
             // dbAvailableLabel
             // 
